@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "projectv",
+  "version": "${version}",
+  "name": "ProjectV",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/projectv/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-datagen": [
+      "de.traxonlp.projectv.client.MainDataGenerator"
+    ],
+    "client": [
+      "de.traxonlp.projectv.client.MainClient"
+    ],
+    "main": [
+      "de.traxonlp.projectv.Main"
+    ]
+  },
+  "mixins": [
+    "projectv.mixins.json",
+    {
+      "config": "projectv.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
