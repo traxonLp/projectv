@@ -1,7 +1,13 @@
 {
   "item.projectv.tofu": "Tofu",
+  "item.projectv.minced_tofu": "Minced Tofu",
+  "item.projectv.smoked_tofu": "Smoked Tofu",
+  "item.projectv.smoked_minced_tofu": "Smoked minced Tofu",
   "item.projectv.leather_substitute": "Leather Substitute",
   "item.projectv.soy_beans": "Soy Beans",
   "item.projectv.soy_milk": "Soy Milk",
+
+
+
   "tag.item.projectv.leather": "Leather Substitutes"
 }

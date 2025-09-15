@@ -20,10 +20,28 @@ public class ModItems {
     public static final Item TOFU = registerItem("tofu");
     public static final Item SOY_BEANS = registerItem("soy_beans");
     public static final Item SOY_MILK = registerItem("soy_milk");
+    public static final Item SMOKED_TOFU = registerItem("smoked_tofu");
+    public static final Item MINCED_TOFU = registerItem("minced_tofu");
+    public static final Item SMOKED_MINCED_TOFU = registerItem("smoked_minced_tofu");
 
 
     //Components
+    public static final FoodComponent TOFU_FOOD_COMPONENT = new FoodComponent.Builder()
+            .alwaysEdible()
+            .build();
+    public static final FoodComponent SOY_BEANS_FOOD_COMPONENT = new FoodComponent.Builder()
+            .alwaysEdible()
+            .build();
     public static final FoodComponent SOY_MILK_FOOD_COMPONENT = new FoodComponent.Builder()
+            .alwaysEdible()
+            .build();
+    public static final FoodComponent SMOKED_TOFU_FOOD_COMPONENT = new FoodComponent.Builder()
+            .alwaysEdible()
+            .build();
+    public static final FoodComponent MINCED_TOFU_FOOD_COMPONENT = new FoodComponent.Builder()
+            .alwaysEdible()
+            .build();
+    public static final FoodComponent SMOKED_MINCED_TOFU_FOOD_COMPONENT = new FoodComponent.Builder()
             .alwaysEdible()
             .build();
 
@@ -34,20 +52,37 @@ public class ModItems {
 
         Item.Settings settings = new Item.Settings().registryKey(key)
                         .rarity(Rarity.COMMON);
-        if (name.equals("leather_substitute")) {
-            return Registry.register(Registries.ITEM, key, new LeatherSubstituteItem(settings));
-        }
-        if (name.equals("tofu")) {
-            return Registry.register(Registries.ITEM, key, new TofuItem(settings));
-        }
-        if (name.equals("soy_beans")) {
-            return Registry.register(Registries.ITEM, key, new TofuItem(settings));
-        }
-        if (name.equals("soy_milk")) {
-            settings = settings.food(SOY_MILK_FOOD_COMPONENT);
-            return Registry.register(Registries.ITEM, key, new SoyMilkItem(settings));
-        }
 
+
+        switch (name) {
+            case "leather_substitute" -> {
+                return Registry.register(Registries.ITEM, key, new LeatherSubstituteItem(settings));
+            }
+            case "tofu" -> {
+                settings = settings.food(TOFU_FOOD_COMPONENT);
+                return Registry.register(Registries.ITEM, key, new TofuItem(settings));
+            }
+            case "soy_beans" -> {
+                settings = settings.food(SOY_BEANS_FOOD_COMPONENT);
+                return Registry.register(Registries.ITEM, key, new SoyBeansItem(settings));
+            }
+            case "soy_milk" -> {
+                settings = settings.food(SOY_MILK_FOOD_COMPONENT);
+                return Registry.register(Registries.ITEM, key, new SoyMilkItem(settings));
+            }
+            case "smoked_tofu" -> {
+                settings = settings.food(SMOKED_TOFU_FOOD_COMPONENT);
+                return Registry.register(Registries.ITEM, key, new SmokedTofuItem(settings));
+            }
+            case "smoked_minced_tofu" -> {
+                settings = settings.food(SMOKED_MINCED_TOFU_FOOD_COMPONENT);
+                return Registry.register(Registries.ITEM, key, new SmokedMincedTofuItem(settings));
+            }
+            case "minced_tofu" -> {
+                settings = settings.food(MINCED_TOFU_FOOD_COMPONENT);
+                return Registry.register(Registries.ITEM, key, new MincedTofuItem(settings));
+            }
+        }
         return Registry.register(Registries.ITEM, key, new Item(settings));
     }
 
@@ -57,6 +92,9 @@ public class ModItems {
         entries.add(TOFU);
         entries.add(SOY_BEANS);
         entries.add(SOY_MILK);
+        entries.add(SMOKED_TOFU);
+        entries.add(MINCED_TOFU);
+        entries.add(SMOKED_MINCED_TOFU);
     }
 
     public static void registerModItems() {
