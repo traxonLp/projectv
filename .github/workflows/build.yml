@@ -5,12 +5,10 @@ name: Publish on GitHub, CurseForge & Modrinth
 on: [ pull_request, workflow_dispatch ]           
 
 env:                                              
-  MINECRAFT_VERSION: 1.21.8                        
-  JAVA_VERSION: 21      
-  VERSION: 0.133.4+1.21.8  
-  RELEASE_NAME: newest 1.21.8 release of projectv
-  MODRINTH_TOKEN: ${{ secrets.PUBLISH_MODRINTH_TOKEN }}
-  CURSEFORGE_TOKEN: ${{ secrets.PUBLISH_CURSEFORGE_TOKEN }}
+  MINECRAFT_VERSION: 1.19.2                        
+  JAVA_VERSION: 17      
+  VERSION: 1.1.0+1.19.2  
+  RELEASE_NAME: projectv 1.21.8
   GITHUB_TOKEN: ${{ secrets.PUBLISH_GITHUB_TOKEN }}           
 
 permissions:
@@ -41,7 +39,7 @@ jobs:
       - name: Build
         run: ./gradlew clean build
         
-      - name: Publish (GitHub)
+      - name: Publish (CurseForge/Modrinth/GitHub)
         uses: Kir-Antipov/mc-publish@v3.2                                   
         with:
           github-tag: "v${{env.VERSION}}"
@@ -55,6 +53,4 @@ jobs:
           loaders: fabric
           game-versions: "${{env.MINECRAFT_VERSION}}"
           java: "${{env.JAVA_VERSION}}"
-
-
 
