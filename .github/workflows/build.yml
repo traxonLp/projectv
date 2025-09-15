@@ -1,0 +1,139 @@
+# GitHub Action für das Bauen einer FabricMC 1.21.8 Minecraft Mod
+name: Build und Upload
+
+# Trigger-Ereignisse: Push, Pull Request und manueller Auslöser
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch: # Erlaubt manuellen Start der Aktion
+
+# Berechtigungen für das Hochladen von Artefakten und Releases
+permissions:
+  contents: write
+  actions: read
+
+# Umgebungsvariablen
+env:
+  JAVA_VERSION: 21
+  MINECRAFT_VERSION: 1.21.8
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Repository auschecken
+    - name: Repository auschecken
+      uses: actions/checkout@v4
+      with:
+        # Lädt alle Git-Historie für bessere Versionierung
+        fetch-depth: 0
+
+    # Java Development Kit einrichten
+    - name: Java ${{ env.JAVA_VERSION }} einrichten
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: ${{ env.JAVA_VERSION }}
+        # Cache für Maven-Abhängigkeiten
+        cache: 'gradle'
+
+    # Gradle Wrapper ausführbar machen (für Unix-basierte Systeme)
+    - name: Gradle Wrapper ausführbar machen
+      run: chmod +x ./gradlew
+
+    # Gradle für optimale Ausführung einrichten
+    - name: Gradle einrichten
+      uses: gradle/actions/setup-gradle@v4
+      with:
+        # Cache-Schreibschutz für Pull Requests
+        cache-read-only: ${{ github.event_name == 'pull_request' }}
+
+    # Gradle Build ausführen
+    - name: Mod mit Gradle bauen
+      run: ./gradlew build
+
+    # Gradle-Abhängigkeiten validieren (Sicherheitscheck)
+    - name: Abhängigkeiten validieren
+      uses: gradle/actions/dependency-submission@v4
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    # Build-Artefakte hochladen
+    - name: Build-Artefakte hochladen
+      uses: actions/upload-artifact@v4
+      with:
+        name: mod-artifacts-${{ github.run_number }}
+        path: |
+          build/libs/*.jar
+          !build/libs/*-sources.jar
+          !build/libs/*-dev.jar
+        retention-days: 30
+
+    # Entwickler-Artefakte separat hochladen (Sources und Dev JARs)
+    - name: Entwickler-Artefakte hochladen
+      uses: actions/upload-artifact@v4
+      with:
+        name: dev-artifacts-${{ github.run_number }}
+        path: |
+          build/libs/*-sources.jar
+          build/libs/*-dev.jar
+        retention-days: 7
+
+    # GitHub Release erstellen (nur bei Tags)
+    - name: GitHub Release erstellen
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          build/libs/*.jar
+          !build/libs/*-dev.jar
+        generate_release_notes: true
+        draft: false
+        prerelease: false
+
+    # Build-Informationen ausgeben
+    - name: Build-Informationen anzeigen
+      run: |
+        echo "Build erfolgreich abgeschlossen!"
+        echo "Minecraft Version: ${{ env.MINECRAFT_VERSION }}"
+        echo "Java Version: ${{ env.JAVA_VERSION }}"
+        echo "Built JARs:"
+        ls -la build/libs/
+
+  # Optionaler Job für Tests (falls vorhanden)
+  test:
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '[test]') || github.event_name == 'pull_request'
+    
+    steps:
+    - name: Repository auschecken
+      uses: actions/checkout@v4
+
+    - name: Java ${{ env.JAVA_VERSION }} einrichten
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: ${{ env.JAVA_VERSION }}
+        cache: 'gradle'
+
+    - name: Gradle Wrapper ausführbar machen
+      run: chmod +x ./gradlew
+
+    - name: Gradle einrichten
+      uses: gradle/actions/setup-gradle@v4
+
+    - name: Tests ausführen
+      run: ./gradlew test
+
+    - name: Test-Ergebnisse hochladen
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results-${{ github.run_number }}
+        path: |
+          build/reports/tests/
+          build/test-results/
+        retention-days: 7
+
