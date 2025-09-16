@@ -6,8 +6,7 @@
   "item.projectv.leather_substitute": "Leather Substitute",
   "item.projectv.soy_beans": "Soy Beans",
   "item.projectv.soy_milk": "Soy Milk",
-
-
+  "itemGroup.projectv.creativetab": "ProjectV",
 
   "tag.item.projectv.leather": "Leather Substitutes"
 }

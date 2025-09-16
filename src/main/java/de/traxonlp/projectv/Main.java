@@ -1,5 +1,6 @@
 package de.traxonlp.projectv;
 
+import de.traxonlp.projectv.Item.CreativeTabProjectV;
 import de.traxonlp.projectv.Item.ModItems;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
@@ -13,5 +14,6 @@ public class Main implements ModInitializer {
     @Override
     public void onInitialize() {
         ModItems.registerModItems();
+        CreativeTabProjectV.registerCreativeTab();
     }
 }
