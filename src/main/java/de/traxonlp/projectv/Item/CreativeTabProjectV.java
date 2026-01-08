@@ -29,6 +29,7 @@ public class CreativeTabProjectV {
             entries.add(ModItems.SMOKED_TOFU);
             entries.add(ModItems.SMOKED_MINCED_TOFU);
             entries.add(ModItems.LEATHER_SUBSTITUTE);
+            entries.add(ModItems.KNIFE);
         });
     }
 }

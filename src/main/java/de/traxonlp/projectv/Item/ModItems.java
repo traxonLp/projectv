@@ -16,6 +16,7 @@ import net.minecraft.util.Rarity;
 public class ModItems {
 
     //Registered Items
+    public static final Item KNIFE = registerItem("knife");
     public static final Item LEATHER_SUBSTITUTE = registerItem("leather_substitute");
     public static final Item TOFU = registerItem("tofu");
     public static final Item SOY_BEANS = registerItem("soy_beans");
@@ -82,12 +83,16 @@ public class ModItems {
                 settings = settings.food(MINCED_TOFU_FOOD_COMPONENT);
                 return Registry.register(Registries.ITEM, key, new MincedTofuItem(settings));
             }
+            case "knife" -> {
+                return Registry.register(Registries.ITEM, key, new KnifeItem(settings));
+            }
         }
         return Registry.register(Registries.ITEM, key, new Item(settings));
     }
 
 
     private static void itemGroupIngedients(FabricItemGroupEntries entries) {
+        entries.add(KNIFE);
         entries.add(LEATHER_SUBSTITUTE);
         entries.add(TOFU);
         entries.add(SOY_BEANS);
