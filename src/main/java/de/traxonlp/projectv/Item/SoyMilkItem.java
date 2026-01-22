@@ -17,6 +17,7 @@ public class SoyMilkItem extends Item {
     public static final FoodComponent SOY_MILK_FOOD_COMPONENT = new FoodComponent.Builder()
             .alwaysEdible()   // jederzeit konsumierbar
             .build();
+            
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {

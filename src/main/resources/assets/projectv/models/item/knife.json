@@ -2,5 +2,22 @@
   "parent": "minecraft:item/generated",
   "textures": {
     "layer0": "projectv:item/knife"
+  },
+  "display": {
+    "firstperson_righthand": {
+      "rotation": [ 45, 90, 0 ],
+      "translation": [ 0, 1.9, 0 ],
+      "scale": [ 0.68, 0.68, 0.68 ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [ 0, -180, 0 ],
+      "translation": [ 0, 0, 0 ],
+      "scale": [ 0.68, 0.68, 0.68 ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [ 0, 180, 0 ],
+      "translation": [ 0, 0.1875, 0 ],
+      "scale": [ 0.375, 0.375, 0.375 ]
+    }
   }
 }
