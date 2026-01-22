@@ -25,7 +25,6 @@ public class ModItems {
     public static final Item MINCED_TOFU = registerItem("minced_tofu");
     public static final Item SMOKED_MINCED_TOFU = registerItem("smoked_minced_tofu");
 
-
     //Components
     public static final FoodComponent TOFU_FOOD_COMPONENT = new FoodComponent.Builder()
             .alwaysEdible()
