@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "projectv:item/test_block"
+  "model": {
+    "type": "minecraft:model",
+    "model": "projectv:block/test_block"
   }
 }
